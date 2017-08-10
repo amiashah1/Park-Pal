@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>ParkPal</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<link rel="sheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="assets/css/mainGeline.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<input type='hidden' name='lat' id='lat'>
+		<input type='hidden' name='lng' id='lng'>
+
+		<style>
+		body {
+		    height: 100%;
+		    background-image: url("images/overlay.png"), -moz-linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+		    background-image: url("images/overlay.png"), -webkit-linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+		    background-image: url("images/overlay.png"), -ms-linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+		    background-image: url("images/overlay.png"), linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+		    }
+
+
+		#map {
+			height: 500px;
+      width: 1140px;
+      left: 59px;
+      position: relative;
+      top: 30px;
+		}
+
+		html, body {
+			height: 50%;
+			margin-top: 10;
+			padding: 0;
+		}
+
+
+
+		html, body {
+			 height: 50%;
+			 margin: 0;
+			 padding: 0;
+}
+
+		#box {
+    	background-color: #FDFDFD
+				;
+    	width: 1105px;
+			height: 206px;
+    	border: 5px solid #FDFDFD
+			;
+    	padding: 10px;
+    	margin: 35px;
+      position: relative;
+      top: 0px;
+}
+		.down{
+			margin-top: 60px;
+			down: 60px;
+}
+		.up1{
+			position: relative;
+			top: -60px;
+			left:260px;
+}
+		.up2{
+			position: relative;
+			top: -155px;
+			left:-270px;
+}
+    .markText{
+			position: relative;
+			top: 47px;
+			font-size: 35px;
+			height:30px;
+      font-family: "Tahoma", Geneva, sans-serif;
+      color: #595959;
+}
+    .SmallText{
+	    position: relative;
+	    top: 46px;
+      left: -10px;
+	    font-size: 16px;
+	    height:30px;
+			color: #595959;
+			font-family: "Tahoma", Geneva, sans-serif;
+}
+
+			</style>
+
+
+	</head>
+
+	<body class="bg ">
+
+		<center>
+		<div id="box" class="container"/><h1 class="markText">Mark Your Spot</h1>
+		<p class="SmallText">Find Where You Are!</p>
+		<div class="row">
+			<div class ="col-sm-4"><img class="up1" src="pin (1).png" height="90"/></div>
+			<div class ="col-sm-4"></div>
+			<div class ="col-sm-4"><img class="up2" src="pin (1).png" height="90"/></div>
+			<div class ="col-sm-4"></div>
+		</div>
+	</center>
+
+		<div id="map"></div>
+			<script>
+			var map, infoWindow;
+		  function initMap() {
+		    map = new google.maps.Map(document.getElementById('map'), {
+		      center: {lat: 37.7749, lng: -122.4194},
+		      zoom: 6
+		     });
+		     infoWindow = new google.maps.InfoWindow;
+				 if (navigator.geolocation) {
+				 		navigator.geolocation.getCurrentPosition(function(position) {
+					 		var pos = {
+						 		lat: position.coords.latitude,
+						 		lng: position.coords.longitude
+					 		};
+
+					 infoWindow.setPosition(pos);
+					 infoWindow.setContent('Found You!');
+					 infoWindow.open(map);
+					 map.setCenter(pos);
+				 }, function() {
+					 handleLocationError(true, infoWindow, map.getCenter());
+				 });
+			 } else {
+				 handleLocationError(false, infoWindow, map.getCenter());
+			 }
+		 }
+
+		 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+			 infoWindow.setPosition(pos);
+			 infoWindow.setContent(browserHasGeolocation ?
+														 'Error: The Geolocation service failed.' :
+														 'Error: Your browser doesn\'t support geolocation.');
+			 infoWindow.open(map);
+		 }
+	 </script>
+
+	 <script async defer
+	     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2PGEIVMd-NVp5Yil3Q5XjmEfbXLPhMHo&callback=initMap&callback=initMap">
+	     </script>
+
+				<script>
+						if ('addEventListener' in window) {
+							window.addEventListener('load', function() { document.body.className = document.body.className.replace(/\bis-loading\b/, ''); });
+							document.body.className += (navigator.userAgent.match(/(MSIE|rv:11\.0)/) ? ' is-ie' : '');
+						}
+					</script>
+
+	</body>
+</html>

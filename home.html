@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+
+    #box {
+    	background-color: #FDFDFD
+				;
+    	width: 1125px;
+			height: 226px;
+    	border: 5px solid #FDFDFD
+			;
+    	padding: 10px;
+    	margin: 35px;
+}
+    text {
+      background-color: #4CAF50;
+     color: black;
+     font-size: 8px;
+     padding: 8px 8px;
+     font-weight:bolder;
+    }
+    body {
+      height: 100%;
+      background-color: #ffffff;
+      background-image: url("images/overlay.png"), -moz-linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+      background-image: url("images/overlay.png"), -webkit-linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+      background-image: url("images/overlay.png"), -ms-linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+      background-image: url("images/overlay.png"), linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+      background-repeat: repeat,			no-repeat,			no-repeat;
+      background-size: 100px 100px, cover,				cover;
+      background-position: top left,		center center,		bottom center;
+      background-attachment: fixed,			fixed,				fixed;
+      font-family: Tahoma, Geneva, sans-serif;
+      font-size: 55px;
+      text-align:center;
+    }
+      .big-btn {
+        width: 100px;
+        height: 35px;
+        position: relative;
+        top: -2px;
+
+    }
+
+        .timerText {
+          position: relative;
+          font-size: 40px;
+          top: 50px;
+          left: 27px;
+          color:#4d4d4d;
+
+    }
+    .SmallText {
+      position: relative;
+      top: 50px;
+      left: 30px;
+      font-size:16px;
+      color:#595959;
+      font-family: "Tahoma", Geneva, sans-serif;
+    }
+
+    		.up1{
+    			position: relative;
+    			top: -70px;
+    			left:370px;
+    }
+    		.up2{
+    			position: relative;
+    			top: -170px;
+    			right:340px;
+    }
+    .setClock{
+      position: relative;
+      top: -20px;
+      left:10px;
+      font-size: 27px;
+        color:#595959;
+}
+
+
+    </style>
+
+  </head>
+<body>
+
+
+  <div id="box" class="container"/><h1 class="timerText">Set A Timer</h1>
+  <p class="SmallText">We've got you covered. Start the timer!</p>
+  <div class="row">
+    <div class ="col-sm-4"><img class="up1" src="timer (3).png" height="90"/></div>
+    <div class ="col-sm-4"></div>
+    <div class ="col-sm-4"><img class="up2" src="timer (3).png" height="90"/></div>
+    <div class ="col-sm-4"></div>
+  </div>
+<h2 class="setClock"> Please enter approximately the amount of hours you have your parking for:</h2>
+  <input type="text" id="userTime" />
+  <input class = "big-btn" type="button" value="Go" onclick="startTimer()" />
+<div id="countdown"></div>
+
+
+<div id="notifier"></div>
+<script type="text/javascript">
+
+function startTimer() {
+ userInput = document.getElementById('userTime').value;
+ //userInput = userInput * 3600;
+  	if(userInput.length == 0){
+		alert("Please enter a value");
+	} else {
+	var numericExpression = /^[0-9]+$/;
+	if(!userInput.match(numericExpression)){
+	alert("Please enter a number")
+	} else {
+
+   function display( notifier, str ) {
+    document.getElementById(notifier).innerHTML = str;
+  }
+
+  function HourMinSecond( x ) {
+   var hour= Math.floor (x/3600);
+   x=x%3600;
+   var min = Math.floor (x/60);
+   x=x%60;
+   var seconds = x;
+    return hour + ":" + min + ":" + seconds + " " + "left"
+  }
+
+  function setTimer( remain, actions ) {
+    (function countdown() {
+       display("countdown", HourMinSecond(remain));
+       //actions[remain] && actions[remain]();
+       if (actions[remain]) {
+       	actions[remain]();
+       }
+       (remain -= 1) >= 0 && setTimeout(arguments.callee, 1000);
+    })();
+  }
+
+  setTimer((userInput * 3600), {
+    10: function () { display("notifier", "Just 10 seconds to go"); },
+     5: function () { display("notifier", "5 seconds left");        },
+     0: function () { display("notifier", "Time is up");       }
+  });
+}
+}
+}
+</script>
+</body>
+</html>

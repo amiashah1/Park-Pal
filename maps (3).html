@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #map {
+        height: 800px;
+        width: 700px;
+       }
+       body {
+         height: 100%;
+         background-color: #ffffff;
+         background-image: url("images/overlay.png"), -moz-linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+         background-image: url("images/overlay.png"), -webkit-linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+         background-image: url("images/overlay.png"), -ms-linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+         background-image: url("images/overlay.png"), linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("../../images/bg.jpg");
+         background-repeat: repeat,			no-repeat,			no-repeat;
+         background-size: 100px 100px, cover,				cover;
+         background-position: top left,		center center,		bottom center;
+         background-attachment: fixed,			fixed,				fixed;
+         font-family: Tahoma, Geneva, sans-serif;
+         font-size: 55px;
+         text-align:center;
+       }
+
+       p{color: #000000; text-align: center; font: 'comic sans'}
+     }
+    </style>
+    <center>  <img src="earth.png" alt="earth" style="width:250px;height:250px;"> </center>
+  </head>
+  <body>
+
+    <p>Find the nearest parking lots near you!</p>
+    <center> <div id="map"></div> </center>
+    <script>
+
+
+    var map;
+    var infowindow;
+    function initMap()  {
+
+      var myhouse = {lat: 37.795800900, lng: -122.421244600}; //this is my berkeley address
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: myhouse,
+        zoom: 15,
+
+      });
+      // var marker1 = new google.maps.Marker({
+      //   position: myhouse,
+      //   map: map,
+      //   title: "Hi from Berkeley!",//This just says this string when you hover over my photo
+      //   animation: google.maps.Animation.DROP,
+      //   icon: 'heystuti.jpg'//this just puts my photo instead of the generic pin as the marker for my address
+      // });
+      // marker1.addListener('click', toggleBounce);
+      // marker1.setMap(map);
+
+
+
+
+      infowindow = new google.maps.InfoWindow();
+      var service = new google.maps.places.PlacesService(map);
+      service.nearbySearch({
+        location: myhouse,
+        radius: 600000,
+        type: ['parking']
+      }, callback);
+
+}
+    function callback(results, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          createMarker(results[i]);
+        }
+      }
+    }
+
+    function createMarker(place) {
+      var placeLoc = place.geometry.location;
+      var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location,
+        icon: 'trial.png',
+        title: 'Park here!',
+      });
+
+
+
+      // var marker2 = new google.maps.Marker({
+      //   position: myhouse,
+      //   map: map,
+      //   title: "Hi from Berkeley!",//This just says this string when you hover over my photo
+      //   animation: google.maps.Animation.DROP,
+      //   icon: 'heystuti.jpg'//this just puts my photo instead of the generic pin as the marker for my address
+      // });
+      // marker2.addListener('click', toggleBounce);
+
+
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(place.name);
+        infowindow.open(map, this);
+      });
+    //   function createMe(){
+    //   var marker = new google.maps.Marker({
+    //     position: myhouse,
+    //     map: map,
+    //     title: "Hi from Berkeley!",//This just says this string when you hover over my photo
+    //     animation: google.maps.Animation.DROP,
+    //     icon: 'heystuti.jpg'//this just puts my photo instead of the generic pin as the marker for my address
+    //   });
+    //   marker.addListener('click', toggleBounce);
+    // }
+    // createMe();
+  }
+
+
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_qsWXuVMwxQzjilqRvn7GDyyJnrMP8f8&callback=initMap&language=en&region=US&libraries=places">
+    </script>
+  </body>
+</html>
